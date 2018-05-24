@@ -6,8 +6,8 @@ import * as actions from '../actions';
 
 class ListItem extends Component {
     renderDescription() {
-        const { library, selectedLibraryId } = this.props;
-        if (library.id === selectedLibraryId) {
+        const { library, expanded } = this.props;
+        if (expanded) {
             return (
                 <Text>{library.description}</Text>
             );
@@ -40,9 +40,11 @@ const styles = {
     }
 };
 
-const mapStateToProps = state => {
-    return { selectedLibraryId: state.selectedLibraryId };
-};
+const mapStateToProps = (state, ownProps) => {
+    const expanded = state.selectedLibraryId === ownProps.library.id;
+
+    return { expanded: expanded };
+};//ownProps is this.props inside of the component
 
 export default connect(mapStateToProps, actions)(ListItem);
 //connect helper(argument for mapStateToProps, our entire actions object/bind action creators to this component -- mutates return object dispatched to redux store)
